@@ -1,4 +1,5 @@
 // SonarController.cs
+
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -14,10 +15,10 @@ public class SonarController : MonoBehaviour
     [SerializeField] private List<MarkerMapping> markerMappings = new();
     [SerializeField] private Material sonarMaterial;
     [SerializeField] private Color lineColor = Color.white;
-    [SerializeField] private float rotationSpeed = 1.0f;      // Скорость вращения луча
-    [SerializeField] private float lineWidth = 0.05f;         // Толщина линии-сканера
-    [SerializeField] private float scanDistance = 50f;        // Дальность сканирования
-    [SerializeField] private LayerMask scanLayer;             // Слой объектов, по которым сканировать
+    [SerializeField] private float rotationSpeed = 1.0f; // Скорость вращения луча
+    [SerializeField] private float lineWidth = 0.05f; // Толщина линии-сканера
+    [SerializeField] private float scanDistance = 50f; // Дальность сканирования
+    [SerializeField] private LayerMask scanLayer; // Слой объектов, по которым сканировать
 
     private float time;
     private List<Vector3> hitPoints = new();
@@ -33,6 +34,7 @@ public class SonarController : MonoBehaviour
 
         if (isSonarActive)
         {
+            SonarEvents.SonarActivated(gameObject.transform, isSonarActive);
             sonarMaterial.SetFloat("_LineWidth", lineWidth);
         }
         else
@@ -40,6 +42,7 @@ public class SonarController : MonoBehaviour
             sonarMaterial.SetFloat("_LineWidth", 0f);
             return;
         }
+
         time += Time.deltaTime;
 
         // лучевой угол (вращение в плоскости XY)
@@ -59,7 +62,7 @@ public class SonarController : MonoBehaviour
         // сканируем по направлению
         if (Physics.Raycast(transform.position, direction, out RaycastHit hit, scanDistance, scanLayer))
         {
-            Debug.Log($"Сонар столкнулся с: {hit.collider.tag} в точке {hit.point}");
+            //Debug.Log($"Сонар столкнулся с: {hit.collider.tag} в точке {hit.point}");
             RegisterHit(hit.point);
 
             GameObject selectedPrefab = GetMarkerForTag(hit.collider.tag);
@@ -87,6 +90,7 @@ public class SonarController : MonoBehaviour
             if (mapping.tag == tag)
                 return mapping.markerPrefab;
         }
+
         return null;
     }
 
@@ -97,4 +101,3 @@ public class SonarController : MonoBehaviour
         hitPoints.Add(point);
     }
 }
-

@@ -3,15 +3,11 @@ using UnityEngine;
 
 public class SonarEvents
 {
+    public static event Action<Transform, bool> OnSonarActivated;
 
-    public static event Action OnSonarActivated;
 
-
-    public static void SonarActivated()
+    public static void SonarActivated(Transform pos, bool isSonarActive)
     {
-        OnSonarActivated?.Invoke();
+        OnSonarActivated?.Invoke(pos, isSonarActive);
     }
-
-
-
 }
