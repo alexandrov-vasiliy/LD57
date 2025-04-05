@@ -8,6 +8,7 @@ Shader "Custom/SonarShader"
         _LineWidth ("Line Width", Float) = 0.05
         _HitCount ("Hit Count", Float) = 0
         [HideInInspector]_HitPoints("Hit Points", Vector) = (0, 0, 0, 0)
+        _Color ("Line Color", Color) = (1,1,1,1)
     }
 
     SubShader
@@ -25,7 +26,8 @@ Shader "Custom/SonarShader"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-
+            
+            float4 _Color;
             float4 _Center;
             float _TimeValue;
             float _RotationSpeed;
@@ -72,7 +74,7 @@ Shader "Custom/SonarShader"
                 
 
                 float alpha = scanLine;
-                return float4(alpha, alpha, alpha, alpha); // белая линия + следы
+                return float4(_Color.rgb, alpha * _Color.a); // белая линия + следы
             }
             ENDCG
         }

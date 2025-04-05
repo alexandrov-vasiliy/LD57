@@ -4,8 +4,16 @@ using System.Collections.Generic;
 
 public class SonarController : MonoBehaviour
 {
-    [SerializeField] private GameObject hitMarkerPrefab;  // Префаб визуального маркера попадания
+    [System.Serializable]
+    public class MarkerMapping
+    {
+        public string tag;
+        public GameObject markerPrefab;
+    }
+
+    [SerializeField] private List<MarkerMapping> markerMappings = new();
     [SerializeField] private Material sonarMaterial;
+    [SerializeField] private Color lineColor = Color.white;
     [SerializeField] private float rotationSpeed = 1.0f;      // Скорость вращения луча
     [SerializeField] private float lineWidth = 0.05f;         // Толщина линии-сканера
     [SerializeField] private float scanDistance = 50f;        // Дальность сканирования
@@ -13,9 +21,25 @@ public class SonarController : MonoBehaviour
 
     private float time;
     private List<Vector3> hitPoints = new();
+    private bool isSonarActive = false;
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isSonarActive = !isSonarActive;
+            time = 0f;
+        }
+
+        if (isSonarActive)
+        {
+            sonarMaterial.SetFloat("_LineWidth", lineWidth);
+        }
+        else
+        {
+            sonarMaterial.SetFloat("_LineWidth", 0f);
+            return;
+        }
         time += Time.deltaTime;
 
         // лучевой угол (вращение в плоскости XY)
@@ -24,7 +48,7 @@ public class SonarController : MonoBehaviour
 
         // передаём параметры в шейдер
         sonarMaterial.SetFloat("_TimeValue", time);
-
+        sonarMaterial.SetColor("_Color", lineColor);
         sonarMaterial.SetFloat("_RotationSpeed", rotationSpeed);
         sonarMaterial.SetFloat("_LineWidth", lineWidth);
         sonarMaterial.SetVector("_Center", transform.position);
@@ -35,11 +59,13 @@ public class SonarController : MonoBehaviour
         // сканируем по направлению
         if (Physics.Raycast(transform.position, direction, out RaycastHit hit, scanDistance, scanLayer))
         {
-            Debug.Log($"Сонар столкнулся с: {hit.collider.name} в точке {hit.point}");
+            Debug.Log($"Сонар столкнулся с: {hit.collider.tag} в точке {hit.point}");
             RegisterHit(hit.point);
-            if (hitMarkerPrefab != null)
+
+            GameObject selectedPrefab = GetMarkerForTag(hit.collider.tag);
+            if (selectedPrefab != null)
             {
-                Destroy(Instantiate(hitMarkerPrefab, hit.point, Quaternion.identity), 2f); // вспышка остаётся 2 секунды
+                Destroy(Instantiate(selectedPrefab, hit.point, Quaternion.identity), 2f);
             }
         }
 
@@ -54,6 +80,16 @@ public class SonarController : MonoBehaviour
         }
     }
 
+    private GameObject GetMarkerForTag(string tag)
+    {
+        foreach (var mapping in markerMappings)
+        {
+            if (mapping.tag == tag)
+                return mapping.markerPrefab;
+        }
+        return null;
+    }
+
     public void RegisterHit(Vector3 point)
     {
         if (hitPoints.Count >= 50)
@@ -61,3 +97,4 @@ public class SonarController : MonoBehaviour
         hitPoints.Add(point);
     }
 }
+

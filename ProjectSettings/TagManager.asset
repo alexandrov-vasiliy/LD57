@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Enemy
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -11,7 +13,7 @@ TagManager:
   - SonarLayer
   - Water
   - UI
-  - 
+  - SonarVision
   - 
   - 
   - 
