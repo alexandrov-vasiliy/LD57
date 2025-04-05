@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class SonarMovement : MonoBehaviour
+public class ShipMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     private Rigidbody rb;
