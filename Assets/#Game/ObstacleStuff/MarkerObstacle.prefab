@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6458745052211714022}
   - component: {fileID: 9086735568428948786}
+  - component: {fileID: 5639204927473102055}
   m_Layer: 6
   m_Name: MarkerObstacle
   m_TagString: Untagged
@@ -77,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.6981132, b: 0.15333442, a: 1}
+  m_Color: {r: 0.5078177, g: 0.6075471, b: 0.5296685, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -87,3 +88,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5639204927473102055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2930915244720113292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60ead3e45714cf1a9f498a771fe53a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,17 +1,28 @@
 // SonarController.cs
 
+using System;
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using _Game;
+
+public enum EMarkerType
+{
+    ENEMY,
+    OBSTACLE
+}
 
 public class SonarController : MonoBehaviour
 {
-    [System.Serializable]
+    [Serializable]
     public class MarkerMapping
     {
         public string tag;
-        public GameObject markerPrefab;
+        public EMarkerType markerType;
     }
 
+    [Header("Sonar Settings")]
+    
     [SerializeField] private List<MarkerMapping> markerMappings = new();
     [SerializeField] private Material sonarMaterial;
     [SerializeField] private Color lineColor = Color.white;
@@ -20,6 +31,10 @@ public class SonarController : MonoBehaviour
     [SerializeField] private float scanDistance = 50f; // Дальность сканирования
     [SerializeField] private LayerMask scanLayer; // Слой объектов, по которым сканировать
 
+    [Header("Markers Settings")] 
+    [SerializeField] private Color _enemyColor;
+    [SerializeField] private Color _obstacleColor;
+    
     private float time;
     private List<Vector3> hitPoints = new();
     private bool isSonarActive = false;
@@ -65,33 +80,51 @@ public class SonarController : MonoBehaviour
             //Debug.Log($"Сонар столкнулся с: {hit.collider.tag} в точке {hit.point}");
             RegisterHit(hit.point);
 
-            GameObject selectedPrefab = GetMarkerForTag(hit.collider.tag);
-            if (selectedPrefab != null)
+            EMarkerType markerType = GetMarkerForTag(hit.collider.tag);
+            var marker = G.MarkerPool.GetObject();
+            marker.transform.position = hit.point;
+            
+            StartCoroutine(DelayedExecution(() => G.MarkerPool.ReturnObject(marker), 2));
+
+            switch (markerType)
             {
-                Destroy(Instantiate(selectedPrefab, hit.point, Quaternion.identity), 2f);
+                case EMarkerType.ENEMY:
+                    marker.SetColor(_enemyColor);
+                    break;
+                case EMarkerType.OBSTACLE:
+                    marker.SetColor(_obstacleColor);
+                   break;
+                
+                default:
+                    Debug.LogError("Add New MarkerType Handler");
+                    break;
             }
+            
+            
+
+            
         }
 
         // передаём слепки в шейдер
-        sonarMaterial.SetFloat("_HitCount", hitPoints.Count);
+        /*sonarMaterial.SetFloat("_HitCount", hitPoints.Count);
         if (hitPoints.Count > 0)
         {
             Vector4[] arr = new Vector4[50];
             for (int i = 0; i < hitPoints.Count && i < 50; i++)
                 arr[i] = hitPoints[i];
             sonarMaterial.SetVectorArray("_HitPoints", arr);
-        }
+        }*/
     }
 
-    private GameObject GetMarkerForTag(string tag)
+    private EMarkerType GetMarkerForTag(string tag)
     {
         foreach (var mapping in markerMappings)
         {
             if (mapping.tag == tag)
-                return mapping.markerPrefab;
+                return mapping.markerType;
         }
 
-        return null;
+        return EMarkerType.OBSTACLE;
     }
 
     public void RegisterHit(Vector3 point)
@@ -100,4 +133,12 @@ public class SonarController : MonoBehaviour
             hitPoints.RemoveAt(0);
         hitPoints.Add(point);
     }
+
+    public IEnumerator DelayedExecution(Action fn, float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        
+        fn.Invoke();
+    }
+    
 }

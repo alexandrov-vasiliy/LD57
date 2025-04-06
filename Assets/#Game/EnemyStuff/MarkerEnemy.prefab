@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7288159763508672702}
   - component: {fileID: 4173783974176119669}
+  - component: {fileID: 8762772250043664082}
   m_Layer: 6
   m_Name: MarkerEnemy
   m_TagString: Untagged
@@ -87,3 +88,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8762772250043664082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7787839580074529451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60ead3e45714cf1a9f498a771fe53a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
