@@ -25,8 +25,7 @@ public class SonarController : MonoBehaviour
 
     [Header("Sonar Settings")] [SerializeField]
     private List<MarkerMapping> markerMappings = new List<MarkerMapping>();
-
-    [SerializeField] private AudioSource _audioSource;
+    
     [SerializeField] private Material sonarMaterial;
     [SerializeField] private Color lineColor = Color.white;
     [SerializeField] private float rotationSpeed = 1.0f; // Скорость вращения луча
@@ -140,7 +139,7 @@ public class SonarController : MonoBehaviour
         {
             case EMarkerType.ENEMY:
                 marker.SetColor(enemyColor);
-                _audioSource.Play();
+                G.sfx.PlayEffect(G.sfx.sonarEffect);
                 break;
             case EMarkerType.OBSTACLE:
                 marker.SetColor(obstacleColor);
