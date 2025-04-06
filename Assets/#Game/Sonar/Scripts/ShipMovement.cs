@@ -42,8 +42,8 @@ public class ShipMovement : MonoBehaviour
 
     void Update()
     {
-        moveInput.x = HorizontalLever.leverValue;
-        moveInput.y = VerticalLever.leverValue;
+        moveInput.x = Input.GetAxis("Horizontal");
+        moveInput.y = Input.GetAxis("Vertical");
         moveInput.z = 0;
         moveInput.Normalize();
     }
