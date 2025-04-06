@@ -11,6 +11,7 @@ public class Attack : MonoBehaviour
         if (other.GetComponent<SonarController>())
         {
             OnAttack?.Invoke();
+            gameObject.GetComponent<AudioSource>().Play();
             gameObject.GetComponent<EnemyLogic>().hasAttacked = true;
             gameObject.GetComponent<EnemyLogic>().ChangePos();
 

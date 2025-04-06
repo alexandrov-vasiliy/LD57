@@ -78,11 +78,11 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TimeValue: 47.37299
+    - _TimeValue: 22.714571
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Center: {r: 15.492037, g: -36.244076, b: 0, a: 0}
+    - _Center: {r: 15.456488, g: -57.749542, b: 0, a: 0}
     - _Color: {r: 0.11230616, g: 0.4339623, b: 0.08433604, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HitPoints: {r: 0, g: 0, b: 0, a: 0}
