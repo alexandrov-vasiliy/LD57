@@ -22,6 +22,8 @@ namespace _Game.InteractiveObjects
             // Запоминаем исходное положение
             startPosition = transform.position;
             // Получаем основную камеру (убедитесь, что она установлена как Main Camera)
+            leverValue = 0.5f;
+
             cam = Camera.main;
         }
 
@@ -56,7 +58,7 @@ namespace _Game.InteractiveObjects
 
             // Вычисляем нормализованное значение:
             // Для диапазона от -1 до 1:
-            leverValue = moveAmount / maxOffset;
+            leverValue = (moveAmount + maxOffset) / (2 * maxOffset);
             // Если нужен диапазон от 0 до 1, то можно использовать:
             // leverValue = (moveAmount + maxOffset) / (2 * maxOffset);
         }

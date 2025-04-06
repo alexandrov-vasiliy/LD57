@@ -8,16 +8,19 @@ public class SFX : MonoBehaviour
     [SerializeField] public AudioClip collideEffect;
     [SerializeField] public AudioClip attackEffect;
     [SerializeField] public AudioClip sonarEffect;
+    private AudioSource _audioSource;
 
 
     private void Awake()
     {
+        _audioSource = gameObject.GetComponent<AudioSource>();
         G.sfx = this;
     }
 
-    public void PlayEffect(AudioClip audio, float volume = 0.5f)
+    public void PlayEffect(AudioClip audio, float volume = 1f)
     {
-        gameObject.GetComponent<AudioSource>().PlayOneShot(audio, volume);
+        Debug.Log("Play Effect " + audio.name );
+        _audioSource.PlayOneShot(audio, volume);
     }
     
     

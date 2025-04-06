@@ -12,7 +12,7 @@ public class Attack : MonoBehaviour
         if (other.GetComponent<SonarController>())
         {
             OnAttack?.Invoke();
-            G.sfx.PlayEffect(G.sfx.attackEffect);
+            G.sfx.PlayEffect(G.sfx.attackEffect, 0.4f);
             gameObject.GetComponent<EnemyLogic>().hasAttacked = true;
             gameObject.GetComponent<EnemyLogic>().ChangePos();
 
