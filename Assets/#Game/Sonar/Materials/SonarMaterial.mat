@@ -69,7 +69,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _HitCount: 50
-    - _LineWidth: 0.05
+    - _LineWidth: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -78,11 +78,11 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TimeValue: 40.35498
+    - _TimeValue: 30.627909
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Center: {r: 9.0872555, g: -46.13916, b: 0, a: 0}
+    - _Center: {r: 9.858742, g: -37.587833, b: 0, a: 0}
     - _Color: {r: 0.11230616, g: 0.4339623, b: 0.08433604, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HitPoints: {r: 0, g: 0, b: 0, a: 0}
