@@ -1,4 +1,5 @@
 using System;
+using _Game;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
@@ -11,6 +12,7 @@ public class Attack : MonoBehaviour
         if (other.GetComponent<SonarController>())
         {
             OnAttack?.Invoke();
+            G.sfx.PlayEffect(G.sfx.attackEffect);
             gameObject.GetComponent<EnemyLogic>().hasAttacked = true;
             gameObject.GetComponent<EnemyLogic>().ChangePos();
 

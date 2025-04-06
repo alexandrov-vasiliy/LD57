@@ -19,35 +19,25 @@ public class SonarController : MonoBehaviour
     [Serializable]
     public class MarkerMapping
     {
-        [Tag]
-        public string Tag;
+        [Tag] public string Tag;
         public EMarkerType MarkerType;
     }
 
-    [Header("Sonar Settings")]
-    [SerializeField]
+    [Header("Sonar Settings")] [SerializeField]
     private List<MarkerMapping> markerMappings = new List<MarkerMapping>();
+    
+    [SerializeField] private Material sonarMaterial;
+    [SerializeField] private Color lineColor = Color.white;
+    [SerializeField] private float rotationSpeed = 1.0f; // Скорость вращения луча
+    [SerializeField] private float lineWidth = 0.05f; // Толщина линии-сканера
+    [SerializeField] private float scanDistance = 50f; // Дальность сканирования
+    [SerializeField] private LayerMask scanLayer; // Слой объектов для сканирования
 
-    [SerializeField]
-    private Material sonarMaterial;
-    [SerializeField]
-    private Color lineColor = Color.white;
-    [SerializeField]
-    private float rotationSpeed = 1.0f; // Скорость вращения луча
-    [SerializeField]
-    private float lineWidth = 0.05f; // Толщина линии-сканера
-    [SerializeField]
-    private float scanDistance = 50f; // Дальность сканирования
-    [SerializeField]
-    private LayerMask scanLayer; // Слой объектов для сканирования
-
-    [Header("Markers Settings")]
-    [SerializeField]
+    [Header("Markers Settings")] [SerializeField]
     private Color enemyColor;
-    [SerializeField]
-    private Color obstacleColor;
-    [SerializeField]
-    private float markerLifeTime = 3f;
+
+    [SerializeField] private Color obstacleColor;
+    [SerializeField] private float markerLifeTime = 3f;
 
     private float time;
     public bool isSonarActive { private set; get; }
@@ -63,12 +53,13 @@ public class SonarController : MonoBehaviour
         {
             ToggleSonar();
         }
-        
+
         if (!isSonarActive)
         {
             DeactivateSonarMaterial();
             return;
         }
+
 
         SonarEvents.SonarActivated(transform, isSonarActive);
         UpdateSonarMaterialProperties();
@@ -79,7 +70,7 @@ public class SonarController : MonoBehaviour
         Debug.DrawRay(transform.position, direction * scanDistance, Color.green);
         ProcessScan(direction);
     }
-    
+
 
     /// <summary>
     /// Обновляет параметры материала сонарного сканера.
@@ -148,6 +139,7 @@ public class SonarController : MonoBehaviour
         {
             case EMarkerType.ENEMY:
                 marker.SetColor(enemyColor);
+                G.sfx.PlayEffect(G.sfx.sonarEffect);
                 break;
             case EMarkerType.OBSTACLE:
                 marker.SetColor(obstacleColor);
@@ -170,6 +162,7 @@ public class SonarController : MonoBehaviour
             if (mapping.Tag == tag)
                 return mapping.MarkerType;
         }
+
         return EMarkerType.OBSTACLE;
     }
 
@@ -179,6 +172,7 @@ public class SonarController : MonoBehaviour
     public void ActivateSonar()
     {
         isSonarActive = true;
+
         time = 0f;
     }
 
@@ -188,8 +182,11 @@ public class SonarController : MonoBehaviour
     public void ToggleSonar()
     {
         isSonarActive = !isSonarActive;
+        
         time = 0f;
     }
+
+
 
     /// <summary>
     /// Выполняет заданное действие с задержкой.
@@ -202,4 +199,6 @@ public class SonarController : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         action?.Invoke();
     }
+
+
 }

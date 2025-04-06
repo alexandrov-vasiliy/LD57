@@ -12,6 +12,8 @@ namespace _Game
         public static UI ui;
 
         public static ObjectPool<MarkerComponent> MarkerPool;
-        
+
+        public static SFX sfx;
+
     }
 }
