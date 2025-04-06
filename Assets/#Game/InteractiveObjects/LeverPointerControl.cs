@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace _Game.InteractiveObjects
@@ -11,7 +12,7 @@ namespace _Game.InteractiveObjects
         public Vector3 movementAxis = Vector3.forward;
 
         // Нормализованное значение рычага: от -1 до 1
-        public float leverValue { get; private set; }
+       [field: ShowNonSerializedField] public float leverValue { get; private set; }
 
         private Vector3 startPosition;
         private Camera cam;

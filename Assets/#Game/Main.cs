@@ -4,6 +4,7 @@ using _Game;
 using _Game.Marker;
 using _Game.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour
 {
@@ -48,5 +49,9 @@ public class Main : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }

@@ -15,9 +15,9 @@ public class SFX : MonoBehaviour
         G.sfx = this;
     }
 
-    public void PlayEffect(AudioClip audio)
+    public void PlayEffect(AudioClip audio, float volume = 0.5f)
     {
-        gameObject.GetComponent<AudioSource>().PlayOneShot(audio, 0.5f);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(audio, volume);
     }
     
     

@@ -13,8 +13,8 @@ public class ShipMovement : MonoBehaviour
     public float maxVelocity = 10f;
     public float drag = 1f;
 
-    public LeverPointerControl HorizontalLever;
-    public LeverPointerControl VerticalLever;
+    public LeverInputControl HorizontalLever;
+    public LeverInputControl VerticalLever;
 
     private Rigidbody rb;
     [ShowNonSerializedField] private Vector3 moveInput;

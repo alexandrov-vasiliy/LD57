@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Valve_DefaultMaterial_Normal_0: 2199420432232462382
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -139,7 +139,7 @@ public class SonarController : MonoBehaviour
         {
             case EMarkerType.ENEMY:
                 marker.SetColor(enemyColor);
-                G.sfx.PlayEffect(G.sfx.sonarEffect);
+                G.sfx.PlayEffect(G.sfx.sonarEffect, 0.1f);
                 break;
             case EMarkerType.OBSTACLE:
                 marker.SetColor(obstacleColor);
