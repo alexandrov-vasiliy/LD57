@@ -7,8 +7,7 @@ public class DepthController : MonoBehaviour
     // Ссылка на игрока, чей Y-координата определяет глубину
     public Transform player;
 
-    // UI-текст для отображения глубины
-    public TMP_Text depthText;
+    public float depth;
 
     // Фоновый элемент (например, Image), у которого будем менять цвет
     public SpriteRenderer background;
@@ -23,8 +22,7 @@ public class DepthController : MonoBehaviour
     void Update()
     {
         // Предположим, что глубина — это абсолютное значение отрицательной координаты Y
-        float depth = Mathf.Abs(player.position.y);
-        depthText.text = "Depth: " + depth.ToString("0") + " / " + maxDepth;
+         depth = Mathf.Abs(player.position.y);
 
         // Вычисляем коэффициент интерполяции от 0 до 1
         float t = Mathf.Clamp01(depth / maxDepth);
