@@ -10,10 +10,12 @@ public class DataMonitorView : MonoBehaviour
 
     public Rigidbody playerRB;
     public DepthController DepthController;
+    public Health Health;
 
     private void Update()
     {
         depth.text = "Depth: " + DepthController.depth.ToString("0") + "/" + DepthController.maxDepth;
         speed.text = "Speed: " + playerRB.linearVelocity.magnitude.ToString("0");
+        health.text = "Health: " + Health.HP.ToString("0");
     }
 }

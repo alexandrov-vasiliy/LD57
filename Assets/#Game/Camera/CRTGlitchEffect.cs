@@ -6,18 +6,23 @@ using NaughtyAttributes;
 [ExecuteInEditMode]
 public class CRTGlitchEffect : MonoBehaviour
 {
-    [Header("Настройки эффекта")] public Shader glitchShader;
-    [Range(0, 1)] public float glitchIntensity = 0.5f;
-    [Range(0, 1)] public float noiseIntensity = 0.5f;
-    [Range(0, 1)] public float fishEye = 0.5f;
+    [BoxGroup("Настройки эффекта")] public Shader glitchShader;
+    [BoxGroup("Настройки эффекта")][Range(0, 1)] public float glitchIntensity = 0.5f;
+    [BoxGroup("Настройки эффекта")] [Range(0, 1)] public float noiseIntensity = 0.5f;
+    [BoxGroup("Настройки эффекта")] [Range(0, 1)] public float fishEye = 0.5f;
 
     private Material glitchMaterial;
 
-    [SerializeField] private float intensityAttack;
-    [SerializeField] private float durationAttack;
+    [BoxGroup("Настройки эффека при аттаке")]
+    [Range(0, 1)] [SerializeField] private float intensityAttack;
+    [BoxGroup("Настройки эффека при аттаке")]
+    [Range(0, 1)][SerializeField] private float durationAttack;
 
-    [SerializeField] private float intensityCollision;
-    [SerializeField] private float durationCollision;
+    [BoxGroup("Настройки эффека при столкновении")]
+
+    [Range(0, 1)] [SerializeField] private float intensityCollision;
+    [BoxGroup("Настройки эффека при столкновении")]
+    [Range(0, 1)][SerializeField] private float durationCollision;
 
     private void OnEnable()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private int _hpCount;
+     public int HP => _hpCount;
 
     public static event Action OnDeath;
 
