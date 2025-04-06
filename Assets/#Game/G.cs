@@ -5,12 +5,13 @@ using _Game.Utils;
 
 namespace _Game
 {
-    public class G
+    public static class G
     {
         public static Main Main;
 
         public static UI ui;
 
         public static ObjectPool<MarkerComponent> MarkerPool;
+        
     }
 }

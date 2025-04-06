@@ -38,13 +38,17 @@ namespace _Game.InteractiveObjects
             Vector3 pointerPos = eventData.position;
             pointerPos.z = Mathf.Abs(cam.transform.position.z - transform.position.z);
             Vector3 worldPos = cam.ScreenToWorldPoint(pointerPos);
-
             // Вычисляем смещение относительно исходной позиции
             Vector3 displacement = worldPos - startPosition;
             // Проецируем смещение на выбранную ось движения
             float moveAmount = Vector3.Dot(displacement, movementAxis.normalized);
+            
+            Debug.Log("ON Drag move Amount: " + moveAmount);
+
+            
             // Ограничиваем смещение в пределах допустимого диапазона
             moveAmount = Mathf.Clamp(moveAmount, -maxOffset, maxOffset);
+            Debug.Log("ON Drag move Amount Clamped: " + moveAmount);
 
             // Обновляем позицию рычага
             transform.position = startPosition + movementAxis.normalized * moveAmount;

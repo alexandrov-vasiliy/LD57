@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 718543261422806235}
   - component: {fileID: -5509336216958751036}
   - component: {fileID: -2974376197856443682}
+  - component: {fileID: 7010543049566262113}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Enemy
@@ -103,11 +104,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &-2974376197856443682
@@ -124,8 +125,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RangeRadius: 20
   lerpSpeed: 2
-  stopDistance: 0.05
+  stopDistance: 0.1
   minXoffset: -10
   maxXoffset: 10
   minYoffset: -10
   maxYoffset: 10
+--- !u!114 &7010543049566262113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596081399895692764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87188c824d0c17e4d8eefce0fd0b19c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -14,11 +14,13 @@ public class EnemyLogic : MonoBehaviour
     
     [SerializeField] private float minYoffset;
     [SerializeField] private float maxYoffset;
+
+    public bool hasAttacked = false;
     
     private Vector3 _targetPos;
     private Transform _ship;
     private bool _isSonarActive;
-     
+    
     private bool hasReachedTarget = true;
     
     
@@ -30,9 +32,7 @@ public class EnemyLogic : MonoBehaviour
 
     private void CheckDistance(Transform ship, bool isSonarActive)
     {
-        Debug.Log("Distance: " + Vector3.Distance(ship.position, gameObject.transform.position));
-        
-        if (Vector3.Distance(ship.position, gameObject.transform.position) < RangeRadius)
+        if ((Vector3.Distance(ship.position, gameObject.transform.position) < RangeRadius)&&!hasAttacked)
         {
             _isSonarActive = isSonarActive;
             _targetPos = ship.position;
@@ -44,7 +44,7 @@ public class EnemyLogic : MonoBehaviour
     {
         if (hasReachedTarget)
         {
-            _targetPos = new Vector3(x: Random.Range(minXoffset, maxXoffset), y: Random.Range(minYoffset, maxYoffset));
+            ChangePos();
         }
         
         transform.position = Vector3.Lerp(transform.position, _targetPos, lerpSpeed * Time.deltaTime);
@@ -53,7 +53,7 @@ public class EnemyLogic : MonoBehaviour
         if (distance < stopDistance)
         {
             hasReachedTarget = true;
-            //Debug.Log("Цель достигнута!");
+            hasAttacked = false;
         }
         else
         {
@@ -61,6 +61,12 @@ public class EnemyLogic : MonoBehaviour
         }
         
     }
+
+    public void ChangePos()
+    {
+        _targetPos = new Vector3(x: Random.Range(minXoffset, maxXoffset), y: Random.Range(minYoffset, maxYoffset));
+    }
+    
 
     private void OnDisable()
     {
