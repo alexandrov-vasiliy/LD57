@@ -50,7 +50,7 @@ public class SonarController : MonoBehaviour
     private float markerLifeTime = 3f;
 
     private float time;
-    private bool isSonarActive;
+    public bool isSonarActive { private set; get; }
 
     private void Start()
     {
