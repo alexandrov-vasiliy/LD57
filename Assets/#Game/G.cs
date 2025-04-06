@@ -5,7 +5,7 @@ using _Game.Utils;
 
 namespace _Game
 {
-    public class G
+    public static class G
     {
         public static Main Main;
 

@@ -6,6 +6,8 @@ public class ShipMovement : MonoBehaviour
     public float moveSpeed = 5f;
     private Rigidbody rb;
     private Vector3 moveInput;
+    
+    
 
     void Start()
     {
