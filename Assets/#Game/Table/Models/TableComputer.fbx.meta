@@ -1,44 +1,9 @@
 fileFormatVersion: 2
-guid: 2988b9590a0a8d84a9e4e55253785ef9
+guid: 4719a09bff586e640ae704ae58e15107
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ButtonMaterial.001
-    second: {fileID: 2100000, guid: 76dc6754fa14fc24b9d44d87b0ba2fe9, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: CheckButton
-    second: {fileID: 2100000, guid: 96994edb649aadf41b931dd692850e72, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ComputerMaterial.001
-    second: {fileID: 2100000, guid: f9e9335976848c7449c46fe691f388e6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LampDesk
-    second: {fileID: 2100000, guid: 9f5d4f6a2ab478148ad0a98e88c3ee26, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LeverContainter
-    second: {fileID: 2100000, guid: f0f5eb980b920ee4bb7d265d9e96d016, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: b8696542f1dea274e805f187298635f7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Stick
-    second: {fileID: 2100000, guid: f0e5c4492a26dc54aac62afebe58c205, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -68,7 +33,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 8
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -123,7 +88,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.08
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
