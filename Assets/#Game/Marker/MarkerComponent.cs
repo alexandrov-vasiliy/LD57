@@ -6,7 +6,7 @@ namespace _Game.Marker
     [RequireComponent(typeof(SpriteRenderer))]
     public class MarkerComponent : MonoBehaviour
     {
-        private SpriteRenderer _renderer;
+        public SpriteRenderer _renderer;
 
         private void Start()
         {
