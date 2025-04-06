@@ -30,8 +30,6 @@ public class EnemyLogic : MonoBehaviour
 
     private void CheckDistance(Transform ship, bool isSonarActive)
     {
-        Debug.Log("Distance: " + Vector3.Distance(ship.position, gameObject.transform.position));
-        
         if (Vector3.Distance(ship.position, gameObject.transform.position) < RangeRadius)
         {
             _isSonarActive = isSonarActive;

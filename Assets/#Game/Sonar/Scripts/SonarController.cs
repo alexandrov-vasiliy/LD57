@@ -2,9 +2,11 @@
 
 using System;
 using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using _Game;
+using _Game.Marker;
+using NaughtyAttributes;
 
 public enum EMarkerType
 {
@@ -17,128 +19,187 @@ public class SonarController : MonoBehaviour
     [Serializable]
     public class MarkerMapping
     {
-        public string tag;
-        public EMarkerType markerType;
+        [Tag]
+        public string Tag;
+        public EMarkerType MarkerType;
     }
 
     [Header("Sonar Settings")]
-    
-    [SerializeField] private List<MarkerMapping> markerMappings = new();
-    [SerializeField] private Material sonarMaterial;
-    [SerializeField] private Color lineColor = Color.white;
-    [SerializeField] private float rotationSpeed = 1.0f; // Скорость вращения луча
-    [SerializeField] private float lineWidth = 0.05f; // Толщина линии-сканера
-    [SerializeField] private float scanDistance = 50f; // Дальность сканирования
-    [SerializeField] private LayerMask scanLayer; // Слой объектов, по которым сканировать
+    [SerializeField]
+    private List<MarkerMapping> markerMappings = new List<MarkerMapping>();
 
-    [Header("Markers Settings")] 
-    [SerializeField] private Color _enemyColor;
-    [SerializeField] private Color _obstacleColor;
-    
+    [SerializeField]
+    private Material sonarMaterial;
+    [SerializeField]
+    private Color lineColor = Color.white;
+    [SerializeField]
+    private float rotationSpeed = 1.0f; // Скорость вращения луча
+    [SerializeField]
+    private float lineWidth = 0.05f; // Толщина линии-сканера
+    [SerializeField]
+    private float scanDistance = 50f; // Дальность сканирования
+    [SerializeField]
+    private LayerMask scanLayer; // Слой объектов для сканирования
+
+    [Header("Markers Settings")]
+    [SerializeField]
+    private Color enemyColor;
+    [SerializeField]
+    private Color obstacleColor;
+    [SerializeField]
+    private float markerLifeTime = 3f;
+
     private float time;
-    private List<Vector3> hitPoints = new();
-    private bool isSonarActive = false;
+    private bool isSonarActive;
 
-    void Update()
+    private void Start()
+    {
+        ActivateSonar();
+    }
+
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            isSonarActive = !isSonarActive;
-            time = 0f;
+            ToggleSonar();
         }
-
-        if (isSonarActive)
+        
+        if (!isSonarActive)
         {
-            SonarEvents.SonarActivated(gameObject.transform, isSonarActive);
-            sonarMaterial.SetFloat("_LineWidth", lineWidth);
-        }
-        else
-        {
-            sonarMaterial.SetFloat("_LineWidth", 0f);
+            DeactivateSonarMaterial();
             return;
         }
 
+        SonarEvents.SonarActivated(transform, isSonarActive);
+        UpdateSonarMaterialProperties();
+
         time += Time.deltaTime;
+        Vector3 direction = CalculateDirection();
 
-        // лучевой угол (вращение в плоскости XY)
-        float angle = time * rotationSpeed;
-        Vector3 direction = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f); // вращение в плоскости XY
+        Debug.DrawRay(transform.position, direction * scanDistance, Color.green);
+        ProcessScan(direction);
+    }
+    
 
-        // передаём параметры в шейдер
+    /// <summary>
+    /// Обновляет параметры материала сонарного сканера.
+    /// </summary>
+    private void UpdateSonarMaterialProperties()
+    {
+        sonarMaterial.SetFloat("_LineWidth", lineWidth);
         sonarMaterial.SetFloat("_TimeValue", time);
         sonarMaterial.SetColor("_Color", lineColor);
         sonarMaterial.SetFloat("_RotationSpeed", rotationSpeed);
-        sonarMaterial.SetFloat("_LineWidth", lineWidth);
         sonarMaterial.SetVector("_Center", transform.position);
-
-        // Визуализация луча
-        Debug.DrawRay(transform.position, direction * scanDistance, Color.green);
-
-        // сканируем по направлению
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, scanDistance, scanLayer))
-        {
-            //Debug.Log($"Сонар столкнулся с: {hit.collider.tag} в точке {hit.point}");
-            RegisterHit(hit.point);
-
-            EMarkerType markerType = GetMarkerForTag(hit.collider.tag);
-            var marker = G.MarkerPool.GetObject();
-            marker.transform.position = hit.point;
-            
-            StartCoroutine(DelayedExecution(() => G.MarkerPool.ReturnObject(marker), 2));
-
-            switch (markerType)
-            {
-                case EMarkerType.ENEMY:
-                    marker.SetColor(_enemyColor);
-                    break;
-                case EMarkerType.OBSTACLE:
-                    marker.SetColor(_obstacleColor);
-                   break;
-                
-                default:
-                    Debug.LogError("Add New MarkerType Handler");
-                    break;
-            }
-            
-            
-
-            
-        }
-
-        // передаём слепки в шейдер
-        /*sonarMaterial.SetFloat("_HitCount", hitPoints.Count);
-        if (hitPoints.Count > 0)
-        {
-            Vector4[] arr = new Vector4[50];
-            for (int i = 0; i < hitPoints.Count && i < 50; i++)
-                arr[i] = hitPoints[i];
-            sonarMaterial.SetVectorArray("_HitPoints", arr);
-        }*/
     }
 
+    /// <summary>
+    /// Выключает визуализацию сонарного сканера.
+    /// </summary>
+    private void DeactivateSonarMaterial()
+    {
+        sonarMaterial.SetFloat("_LineWidth", 0f);
+    }
+
+    /// <summary>
+    /// Вычисляет направление луча на основе времени и скорости вращения.
+    /// </summary>
+    /// <returns>Вектор направления</returns>
+    private Vector3 CalculateDirection()
+    {
+        float angle = time * rotationSpeed;
+        return new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f);
+    }
+
+    /// <summary>
+    /// Выполняет сканирование в указанном направлении.
+    /// </summary>
+    /// <param name="direction">Направление сканирования</param>
+    private void ProcessScan(Vector3 direction)
+    {
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, scanDistance, scanLayer))
+        {
+            HandleMarkerHit(hit);
+        }
+    }
+
+    /// <summary>
+    /// Обрабатывает попадание луча в объект.
+    /// </summary>
+    /// <param name="hit">Результат столкновения</param>
+    private void HandleMarkerHit(RaycastHit hit)
+    {
+        EMarkerType markerType = GetMarkerForTag(hit.collider.tag);
+        var marker = G.MarkerPool.GetObject();
+        marker.transform.position = hit.point;
+
+        StartCoroutine(ExecuteAfterDelay(() => G.MarkerPool.ReturnObject(marker), markerLifeTime));
+        SetMarkerColor(marker, markerType);
+    }
+
+    /// <summary>
+    /// Устанавливает цвет маркера в зависимости от его типа.
+    /// </summary>
+    /// <param name="marker">Объект маркера</param>
+    /// <param name="markerType">Тип маркера</param>
+    private void SetMarkerColor(MarkerComponent marker, EMarkerType markerType)
+    {
+        switch (markerType)
+        {
+            case EMarkerType.ENEMY:
+                marker.SetColor(enemyColor);
+                break;
+            case EMarkerType.OBSTACLE:
+                marker.SetColor(obstacleColor);
+                break;
+            default:
+                throw new AggregateException("Необработанный тип маркера");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Возвращает тип маркера для заданного тега.
+    /// </summary>
+    /// <param name="tag">Тег объекта</param>
+    /// <returns>Тип маркера</returns>
     private EMarkerType GetMarkerForTag(string tag)
     {
         foreach (var mapping in markerMappings)
         {
-            if (mapping.tag == tag)
-                return mapping.markerType;
+            if (mapping.Tag == tag)
+                return mapping.MarkerType;
         }
-
         return EMarkerType.OBSTACLE;
     }
 
-    public void RegisterHit(Vector3 point)
+    /// <summary>
+    /// Включает работу сонара.
+    /// </summary>
+    public void ActivateSonar()
     {
-        if (hitPoints.Count >= 50)
-            hitPoints.RemoveAt(0);
-        hitPoints.Add(point);
+        isSonarActive = true;
+        time = 0f;
     }
 
-    public IEnumerator DelayedExecution(Action fn, float seconds)
+    /// <summary>
+    /// Переключает состояние сонара.
+    /// </summary>
+    public void ToggleSonar()
+    {
+        isSonarActive = !isSonarActive;
+        time = 0f;
+    }
+
+    /// <summary>
+    /// Выполняет заданное действие с задержкой.
+    /// </summary>
+    /// <param name="action">Действие для выполнения</param>
+    /// <param name="seconds">Задержка в секундах</param>
+    /// <returns>Корутина</returns>
+    private IEnumerator ExecuteAfterDelay(Action action, float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        
-        fn.Invoke();
+        action?.Invoke();
     }
-    
 }

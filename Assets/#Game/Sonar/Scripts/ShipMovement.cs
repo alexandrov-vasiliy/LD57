@@ -1,3 +1,5 @@
+using _Game.InteractiveObjects;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +13,11 @@ public class ShipMovement : MonoBehaviour
     public float maxVelocity = 10f;
     public float drag = 1f;
 
+    public LeverPointerControl HorizontalLever;
+    public LeverPointerControl VerticalLever;
+
     private Rigidbody rb;
-    private Vector3 moveInput;
+    [ShowNonSerializedField] private Vector3 moveInput;
     private CanvasGroup[] canvasGroups;
     private float flashSpeed = 4f;
     private float flashAlphaMin = 0.3f;
@@ -37,8 +42,8 @@ public class ShipMovement : MonoBehaviour
 
     void Update()
     {
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
+        moveInput.x = HorizontalLever.leverValue;
+        moveInput.y = VerticalLever.leverValue;
         moveInput.z = 0;
         moveInput.Normalize();
     }

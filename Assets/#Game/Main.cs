@@ -9,8 +9,7 @@ public class Main : MonoBehaviour
 
     void Awake()
     {
-        G.MarkerPool = new ObjectPool<MarkerComponent>(_marker, 100, transform);
-        
+        G.MarkerPool = new ObjectPool<MarkerComponent>(_marker, 200, transform);
     }
 
     void Update()
