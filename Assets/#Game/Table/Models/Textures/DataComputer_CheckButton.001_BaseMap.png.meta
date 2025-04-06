@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      DataComputer_CheckButton.001_BaseMap_0: -8095695079668506393
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

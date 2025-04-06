@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      DataComputer_CheckButton.001_Specular_0: 5508720156523657608
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
